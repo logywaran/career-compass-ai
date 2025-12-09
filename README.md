@@ -67,6 +67,8 @@ Open:
 
 src/main/resources/application.properties
 
+Create your Grop Api Key here => https://console.groq.com/keys 
+
 Add your Groq API key:
 
 groq.api.key=YOUR_GROQ_API_KEY
