@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Career Compass – AI-Powered Career Matching</title>
+    <meta name="description" content="AI-powered job matching and career guidance using hybrid AI + rules. Get transparent, explainable career match scores.">
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --primary-dark: #4338ca;
+            --primary-glow: rgba(99, 102, 241, 0.15);
+            --surface: #ffffff;
+            --surface-secondary: #f8fafc;
+            --surface-tertiary: #eef2ff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
+            --success: #22c55e;
+            --success-bg: #ecfdf5;
+            --success-text: #047857;
+            --radius: 12px;
+            --radius-lg: 18px;
+            --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+            --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06);
+            --shadow-lg: 0 15px 40px rgba(15, 23, 42, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: radial-gradient(ellipse at top left, #eef2ff, #f8fafc 60%, white 100%);
+            font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* ---------------- HEADER ---------------- */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .logo-sub {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            margin-top: 1px;
+        }
+
+        nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .nav-link {
+            font-size: 0.85rem;
+            text-decoration: none;
+            color: var(--text-secondary);
+            padding: 7px 12px;
+            border-radius: 999px;
+            transition: all 0.15s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: var(--primary-glow);
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* ---------------- MAIN ---------------- */
+        main {
+            padding: 48px 20px 60px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        /* ---------------- HERO ---------------- */
+        .hero {
+            display: grid;
+            grid-template-columns: 1.25fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--primary);
+            letter-spacing: 0.06em;
+            font-size: 0.78rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        .hero-eyebrow i {
+            font-size: 0.9rem;
+        }
+
+        .hero-title {
+            font-weight: 800;
+            font-size: clamp(2rem, 4.5vw, 2.75rem);
+            line-height: 1.15;
+            margin: 0 0 14px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-highlight {
+            background: linear-gradient(90deg, var(--primary), #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-text {
+            max-width: 500px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.65;
+            margin-bottom: 24px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 18px;
+            border-radius: 999px;
+            border: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .btn-outline {
+            background: white;
+            border: 1.5px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary-light);
+            color: var(--primary);
+            background: var(--surface-tertiary);
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .hero-meta span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .hero-meta i {
+            color: var(--success);
+            font-size: 0.85rem;
+        }
+
+        /* ---------------- PREVIEW CARD ---------------- */
+        .preview-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: 0;
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+        }
+
+        .preview-header {
+            background: linear-gradient(135deg, var(--surface-tertiary), #f8fafc);
+            padding: 14px 18px;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .preview-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .preview-label i {
+            color: var(--primary);
+        }
+
+        .preview-badge {
+            font-size: 0.7rem;
+            padding: 3px 8px;
+            border-radius: 999px;
+            background: var(--primary-glow);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .preview-body {
+            padding: 20px;
+        }
+
+        .preview-intro {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+
+        .score-display {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .score-circle {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: var(--success-bg);
+            border: 4px solid var(--success);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--success-text);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .score-info h4 {
+            margin: 0 0 3px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .score-info p {
+            margin: 0;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+        }
+
+        .preview-sections {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .preview-section {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 10px 12px;
+            background: var(--surface-secondary);
+            border-radius: var(--radius);
+            border: 1px solid var(--border-light);
+        }
+
+        .preview-section-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .preview-section-icon.green {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .preview-section-icon.amber {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .preview-section-icon.blue {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .preview-section-text {
+            flex: 1;
+        }
+
+        .preview-section-text strong {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+        }
+
+        .preview-section-text span {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .preview-cta {
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px dashed var(--border);
+            text-align: center;
+        }
+
+        .preview-cta-text {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .preview-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .preview-cta-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* ---------------- FEATURES ---------------- */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin-top: 56px;
+        }
+
+        @media (max-width: 900px) {
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .feature {
+            background: white;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            padding: 18px;
+            transition: all 0.2s ease;
+        }
+
+        .feature:hover {
+            border-color: var(--primary-light);
+            box-shadow: var(--shadow-md);
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--surface-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
+
+        .feature-icon i {
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .feature h4 {
+            margin: 0 0 6px;
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .feature p {
+            margin: 0;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.55;
+        }
+
+        /* ---------------- FOOTER ---------------- */
+        footer {
+            padding: 20px;
+            text-align: center;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-light);
+            background: white;
+        }
+    </style>
+</head>
+<body>
+
+<header class="header">
+    <div class="header-inner">
+        <a class="logo" href="home.html">
+            <div class="logo-icon">
+                <i class="bi bi-compass"></i>
+            </div>
+            <div>
+                <div class="logo-text">Career Compass</div>
+                <div class="logo-sub">AI-Powered Career Matching</div>
+            </div>
+        </a>
+
+        <nav>
+            <a href="home.html" class="nav-link active">Home</a>
+            <a href="resume.html" class="nav-link">Resume</a>
+            <a href="job.html" class="nav-link">Job</a>
+            <a href="results.html" class="nav-link">Results</a>
+            <a href="chatbot.html" class="nav-link">AI Assistant</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+
+        <section class="hero">
+            <div>
+                <div class="hero-eyebrow">
+                    <i class="bi bi-stars"></i>
+                    Your Career, Clarified
+                </div>
+                <h1 class="hero-title">
+                    See how well you
+                    <span class="hero-highlight">match any job</span>
+                </h1>
+
+                <p class="hero-text">
+                    Upload your resume and paste a job description. Career Compass uses
+                    AI to extract skills and a transparent scoring engine to show you
+                    exactly where you stand — plus actionable guidance to level up.
+                </p>
+
+                <div class="hero-actions">
+                    <button class="btn btn-primary" onclick="location.href='resume.html'">
+                        <i class="bi bi-file-earmark-arrow-up"></i>
+                        Upload Resume
+                    </button>
+
+                    <button class="btn btn-outline" onclick="location.href='job.html'">
+                        <i class="bi bi-search"></i>
+                        Analyze a Job
+                    </button>
+
+                    <button class="btn btn-outline" onclick="location.href='chatbot.html'">
+                        <i class="bi bi-chat-dots"></i>
+                        Ask AI Assistant
+                    </button>
+                </div>
+
+                <div class="hero-meta">
+                    <span><i class="bi bi-check-circle-fill"></i> Hybrid AI + Rules</span>
+                    <span><i class="bi bi-check-circle-fill"></i> No account required</span>
+                    <span><i class="bi bi-check-circle-fill"></i> Explainable scores</span>
+                </div>
+            </div>
+
+            <div class="preview-card">
+                <div class="preview-header">
+                    <div class="preview-label">
+                        <i class="bi bi-clipboard-data"></i>
+                        Sample Career Match Report
+                    </div>
+                    <span class="preview-badge">Preview</span>
+                </div>
+
+                <div class="preview-body">
+                    <p class="preview-intro">
+                        After you upload your resume and a job description, you'll receive a detailed report like this:
+                    </p>
+
+                    <div class="score-display">
+                        <div class="score-circle">87%</div>
+                        <div class="score-info">
+                            <h4>Strong Match</h4>
+                            <p>Great alignment with required skills and experience</p>
+                        </div>
+                    </div>
+
+                    <div class="preview-sections">
+                        <div class="preview-section">
+                            <div class="preview-section-icon green">
+                                <i class="bi bi-check2"></i>
+                            </div>
+                            <div class="preview-section-text">
+                                <strong>Your Strengths</strong>
+                                <span>Skills you already have that match the role</span>
+                            </div>
+                        </div>
+
+                        <div class="preview-section">
+                            <div class="preview-section-icon amber">
+                                <i class="bi bi-exclamation-triangle"></i>
+                            </div>
+                            <div class="preview-section-text">
+                                <strong>Skill Gaps</strong>
+                                <span>Missing skills you should consider learning</span>
+                            </div>
+                        </div>
+
+                        <div class="preview-section">
+                            <div class="preview-section-icon blue">
+                                <i class="bi bi-lightbulb"></i>
+                            </div>
+                            <div class="preview-section-text">
+                                <strong>Personalized Tips</strong>
+                                <span>AI-generated advice to improve your fit</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="preview-cta">
+                        <p class="preview-cta-text">Ready to see your own match report?</p>
+                        <button class="preview-cta-btn" onclick="location.href='resume.html'">
+                            <i class="bi bi-arrow-right"></i>
+                            Get Started
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="bi bi-diagram-3"></i>
+                </div>
+                <h4>Hybrid AI + Rule Engine</h4>
+                <p>
+                    AI extracts skills from your resume and job descriptions,
+                    then a deterministic engine calculates stable, explainable match scores.
+                </p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="bi bi-clipboard-check"></i>
+                </div>
+                <h4>Transparent Matching</h4>
+                <p>
+                    See exactly which skills matched, which are missing, and why
+                    you got your score — no mysterious black-box algorithms.
+                </p>
+            </div>
+
+            <div class="feature">
+                <div class="feature-icon">
+                    <i class="bi bi-chat-dots"></i>
+                </div>
+                <h4>AI Career Assistant</h4>
+                <p>
+                    Ask career questions powered by your resume and job context.
+                    Get personalized advice for interviews, skill gaps, and more.
+                </p>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<footer>
+    © 2024 Career Compass · Hybrid AI + Rules · Built with care
+</footer>
+
+</body>
+</html>

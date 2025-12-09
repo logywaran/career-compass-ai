@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Career Compass – AI Career Assistant</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --primary-dark: #4338ca;
+            --primary-glow: rgba(99, 102, 241, 0.12);
+
+            --surface: #ffffff;
+            --surface-secondary: #f8fafc;
+            --surface-tertiary: #f1f5f9;
+
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
+
+            --success: #22c55e;
+            --error: #b91c1c;
+
+            --radius: 12px;
+            --radius-sm: 8px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--surface-secondary);
+            color: var(--text-primary);
+        }
+
+        /* HEADER */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .logo-sub {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .top-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            padding: 7px 12px;
+            border-radius: 999px;
+            transition: all 0.15s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: var(--primary-glow);
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* MAIN LAYOUT */
+        main {
+            padding: 24px 20px 32px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            height: calc(100vh - 130px);
+            max-height: 720px;
+        }
+
+        @media (max-width: 900px) {
+            .card {
+                height: calc(100vh - 140px);
+                padding: 18px;
+            }
+        }
+
+        .card-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            gap: 12px;
+        }
+
+        .title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin: 0 0 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .title i {
+            color: var(--primary);
+        }
+
+        .subtitle {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            margin: 0 0 14px;
+            line-height: 1.5;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 999px;
+            background: var(--surface-tertiary);
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            border: 1px solid var(--border-light);
+            flex-shrink: 0;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* CHAT AREA */
+        .chat-wrapper {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .chat-history {
+            flex: 1;
+            min-height: 0;
+            padding: 12px 0;
+            overflow-y: auto;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            background: linear-gradient(180deg, var(--surface-tertiary), #ffffff);
+        }
+
+        .chat-inner {
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .message-row {
+            display: flex;
+            animation: fadeIn 0.25s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message-row.user {
+            justify-content: flex-end;
+        }
+
+        .message-row.bot {
+            justify-content: flex-start;
+        }
+
+        .message {
+            display: inline-block;
+            max-width: 75%;
+            padding: 10px 14px;
+            border-radius: 14px;
+            font-size: 0.9rem;
+            white-space: pre-line;
+            word-wrap: break-word;
+            line-height: 1.5;
+        }
+
+        .message-user {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 2px 6px rgba(79, 70, 229, 0.2);
+        }
+
+        .message-bot {
+            background: white;
+            border: 1px solid var(--border);
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+        }
+
+        /* QUICK QUESTIONS */
+        .quick-questions {
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .quick-btn {
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 999px;
+            padding: 7px 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .quick-btn:hover {
+            border-color: var(--primary-light);
+            color: var(--primary);
+            background: var(--primary-glow);
+        }
+
+        /* INPUT AREA */
+        .input-area {
+            margin-top: 12px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .input-area textarea {
+            width: 100%;
+            min-height: 56px;
+            max-height: 120px;
+            padding: 12px 14px;
+            border-radius: var(--radius);
+            border: 1.5px solid var(--border);
+            font-family: inherit;
+            font-size: 0.9rem;
+            resize: none;
+            transition: border-color 0.15s ease;
+            line-height: 1.5;
+        }
+
+        .input-area textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .input-area textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .send-btn {
+            border-radius: var(--radius);
+            border: none;
+            padding: 0 18px;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            height: 56px;
+            min-width: 90px;
+            transition: all 0.15s ease;
+        }
+
+        .send-btn:hover:not(:disabled) {
+            background: var(--primary-dark);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .helper {
+            margin-top: 8px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .error-text {
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: var(--error);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .spinner {
+            width: 16px;
+            height: 16px;
+            border-radius: 999px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #ffffff;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <a class="logo" href="home.html">
+            <div class="logo-icon">
+                <i class="bi bi-compass"></i>
+            </div>
+            <div>
+                <div class="logo-text">Career Compass</div>
+                <div class="logo-sub">AI-Powered Career Matching</div>
+            </div>
+        </a>
+
+        <nav class="top-nav">
+            <a href="home.html" class="nav-link">Home</a>
+            <a href="resume.html" class="nav-link">Resume</a>
+            <a href="job.html" class="nav-link">Job</a>
+            <a href="results.html" class="nav-link">Results</a>
+            <a href="chatbot.html" class="nav-link active">AI Assistant</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <div class="card">
+
+            <div class="card-header-row">
+                <div>
+                    <h1 class="title">
+                        <i class="bi bi-chat-dots"></i>
+                        AI Career Assistant
+                    </h1>
+                    <p class="subtitle">
+                        Ask career questions based on your resume and target job. I'll give you focused, actionable advice.
+                    </p>
+                </div>
+                <div class="status-badge">
+                    <span class="status-dot"></span>
+                    Ready to help
+                </div>
+            </div>
+
+            <div class="chat-wrapper">
+
+                <div class="chat-history" id="chatHistory">
+                    <div class="chat-inner" id="chatInner">
+                        <!-- Messages injected here -->
+                    </div>
+                </div>
+
+                <div class="quick-questions">
+                    <button class="quick-btn" onclick="useQuickQuestion('How can I improve my resume for this job?')">
+                        <i class="bi bi-file-earmark-text"></i> Improve my resume
+                    </button>
+                    <button class="quick-btn" onclick="useQuickQuestion('What skills should I learn next based on this job and my resume?')">
+                        <i class="bi bi-lightbulb"></i> Skills to learn
+                    </button>
+                    <button class="quick-btn" onclick="useQuickQuestion('How should I prepare for interviews for this kind of role?')">
+                        <i class="bi bi-person-video3"></i> Interview prep
+                    </button>
+                    <button class="quick-btn" onclick="useQuickQuestion('Based only on my resume, what job roles would suit me best and why?')">
+                        <i class="bi bi-bullseye"></i> Best-fit roles
+                    </button>
+                </div>
+
+                <div class="input-area">
+                    <textarea
+                            id="questionInput"
+                            placeholder="Type your career question here... (Enter to send)"
+                    ></textarea>
+                    <button class="send-btn" id="sendBtn" onclick="sendMessage()">
+                        <span id="sendBtnLabel">
+                            <i class="bi bi-send"></i> Send
+                        </span>
+                        <span id="sendBtnLoading" style="display:none; align-items:center; gap:6px;">
+                            <span class="spinner"></span>
+                        </span>
+                    </button>
+                </div>
+
+                <div class="helper">
+                    <i class="bi bi-info-circle"></i>
+                    Uses your resume and job description as context. Answers are focused on career topics only.
+                </div>
+                <div class="error-text" id="errorText" style="display:none;">
+                    <i class="bi bi-exclamation-circle"></i>
+                    <span id="errorMessage"></span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<script>
+    const chatInner = document.getElementById("chatInner");
+    const questionInput = document.getElementById("questionInput");
+    const sendBtn = document.getElementById("sendBtn");
+    const sendBtnLabel = document.getElementById("sendBtnLabel");
+    const sendBtnLoading = document.getElementById("sendBtnLoading");
+    const errorText = document.getElementById("errorText");
+    const errorMessage = document.getElementById("errorMessage");
+
+    const CHAT_STORAGE_KEY = "careerCompassChat";
+    const CHAT_CONTEXT_KEY = "careerCompassChatContext";
+
+    let messages = [];
+
+    const INTRO_MESSAGE =
+        "👋 Hello! I'm your Career Compass assistant.\n\n" +
+        "I'm here to help you with:\n" +
+        "• Tailoring your resume for specific roles\n" +
+        "• Identifying skills to develop next\n" +
+        "• Preparing for job interviews\n" +
+        "• Exploring career paths that fit your background\n\n" +
+        "Feel free to ask me anything about your career goals!";
+
+    window.addEventListener("DOMContentLoaded", () => {
+        // Build a simple context fingerprint from current resume + JD
+        const resumeTextContext =
+            (sessionStorage.getItem("resumeText") || localStorage.getItem("resumeText") || "").trim();
+        const jobDescriptionContext =
+            (sessionStorage.getItem("jobDescription") || localStorage.getItem("jobDescription") || "").trim();
+
+        const currentContext = resumeTextContext + "||" + jobDescriptionContext;
+        const previousContext = sessionStorage.getItem(CHAT_CONTEXT_KEY);
+
+        // If resume/JD changed since last time, reset chat history for a fresh conversation
+        if (previousContext && previousContext !== currentContext) {
+            sessionStorage.removeItem(CHAT_STORAGE_KEY);
+            messages = [];
+            chatInner.innerHTML = "";
+        }
+
+        // Store the current context for next time
+        sessionStorage.setItem(CHAT_CONTEXT_KEY, currentContext);
+
+        // Load (or initialize) the chat history
+        loadChatHistory();
+    });
+
+    function loadChatHistory() {
+        const saved = sessionStorage.getItem(CHAT_STORAGE_KEY);
+
+        if (!saved) {
+            messages = [];
+            addBotMessage(INTRO_MESSAGE);
+            return;
+        }
+
+        try {
+            messages = JSON.parse(saved) || [];
+        } catch (e) {
+            console.error("Failed to parse saved chat history", e);
+            messages = [];
+        }
+
+        messages.forEach(msg => {
+            const wrapper = document.createElement("div");
+            wrapper.className = "message-row " + (msg.role === "user" ? "user" : "bot");
+
+            const bubble = document.createElement("div");
+            bubble.className =
+                "message " + (msg.role === "user" ? "message-user" : "message-bot");
+
+            bubble.textContent = msg.text;
+            wrapper.appendChild(bubble);
+            chatInner.appendChild(wrapper);
+        });
+
+        scrollToBottom();
+    }
+
+    function saveChatHistory() {
+        sessionStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(messages));
+    }
+
+    function scrollToBottom() {
+        const chatHistory = document.getElementById("chatHistory");
+        chatHistory.scrollTop = chatHistory.scrollHeight;
+    }
+
+    function clearChat() {
+        messages = [];
+        sessionStorage.removeItem(CHAT_STORAGE_KEY);
+        // Optional: also clear context if you want "full reset"
+        // sessionStorage.removeItem(CHAT_CONTEXT_KEY);
+
+        chatInner.innerHTML = "";
+        addBotMessage(INTRO_MESSAGE);
+    }
+
+    function useQuickQuestion(text) {
+        questionInput.value = text;
+        sendMessage();
+    }
+
+    function setLoading(isLoading) {
+        if (isLoading) {
+            sendBtn.disabled = true;
+            sendBtnLabel.style.display = "none";
+            sendBtnLoading.style.display = "inline-flex";
+        } else {
+            sendBtn.disabled = false;
+            sendBtnLabel.style.display = "inline-flex";
+            sendBtnLoading.style.display = "none";
+        }
+    }
+
+    function showError(message) {
+        errorMessage.textContent = message;
+        errorText.style.display = "flex";
+    }
+
+    function hideError() {
+        errorText.style.display = "none";
+        errorMessage.textContent = "";
+    }
+
+    function addUserMessage(text) {
+        const wrapper = document.createElement("div");
+        wrapper.className = "message-row user";
+
+        const bubble = document.createElement("div");
+        bubble.className = "message message-user";
+        bubble.textContent = text;
+
+        wrapper.appendChild(bubble);
+        chatInner.appendChild(wrapper);
+        scrollToBottom();
+
+        messages.push({ role: "user", text });
+        saveChatHistory();
+    }
+
+    function addBotMessage(text) {
+        const wrapper = document.createElement("div");
+        wrapper.className = "message-row bot";
+
+        const bubble = document.createElement("div");
+        bubble.className = "message message-bot";
+        bubble.textContent = text;
+
+        wrapper.appendChild(bubble);
+        chatInner.appendChild(wrapper);
+        scrollToBottom();
+
+        messages.push({ role: "assistant", text });
+        saveChatHistory();
+    }
+
+    async function sendMessage() {
+        hideError();
+
+        const question = questionInput.value.trim();
+        if (!question) return;
+
+        addUserMessage(question);
+        questionInput.value = "";
+
+        setLoading(true);
+
+        const resumeText =
+            (sessionStorage.getItem("resumeText") || localStorage.getItem("resumeText") || "").trim();
+
+        const jobDescription =
+            (sessionStorage.getItem("jobDescription") || localStorage.getItem("jobDescription") || "").trim();
+
+        try {
+            const res = await fetch("/api/ask", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    question: question,
+                    resumeText: resumeText,
+                    jobDescription: jobDescription
+                })
+            });
+
+            if (!res.ok) {
+                throw new Error("API error");
+            }
+
+            const data = await res.json();
+            const answer = data.answer || data.response || JSON.stringify(data);
+
+            addBotMessage(answer);
+
+        } catch (err) {
+            console.error(err);
+            showError("Something went wrong. Please try again.");
+            addBotMessage("I'm sorry, I had trouble responding. Please try again in a moment.");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    // Enter = send, Shift+Enter = newline
+    questionInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+</script>
+
+
+</body>
+</html>

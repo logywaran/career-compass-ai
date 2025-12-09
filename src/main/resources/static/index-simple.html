@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Career Compass</title>
+</head>
+<body>
+
+<h2>Career Compass – Job & Resume Match</h2>
+
+<p>Job Description</p>
+<textarea id="jd" rows="6" cols="80" placeholder="Paste the job description here..."></textarea>
+
+<p>Your Resume</p>
+<textarea id="resume" rows="6" cols="80" placeholder="Paste your resume text here or upload a PDF below..."></textarea>
+
+<p>Upload Resume PDF</p>
+<input type="file" id="resumePdfInput" accept="application/pdf">
+<button id="uploadResumePdfBtn" type="button">Upload Resume</button>
+
+<div id="resumeUploadStatus"></div>
+
+<br><br>
+<button onclick="analyze()">Analyze</button>
+
+<h3>Result</h3>
+<div id="result"></div>
+
+<hr>
+
+<h2>Career Q&A (Chatbot)</h2>
+
+<textarea id="question" rows="4" cols="80" placeholder="Type your question here..."></textarea>
+<br><br>
+
+<button onclick="askQuestion()">Ask</button>
+
+<h3>Answer</h3>
+<div id="answer"></div>
+
+<script>
+    /* =============================
+       PDF UPLOAD HANDLER
+    =============================*/
+    const pdfInput = document.getElementById('resumePdfInput');
+    const uploadBtn = document.getElementById('uploadResumePdfBtn');
+    const statusDiv = document.getElementById('resumeUploadStatus');
+    const resumeArea = document.getElementById('resume');
+
+    uploadBtn.addEventListener("click", async () => {
+
+        const file = pdfInput.files[0];
+
+        if (!file) {
+            statusDiv.innerHTML = "Please choose a PDF file";
+            return;
+        }
+
+        statusDiv.innerHTML = "Uploading and extracting resume...";
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const response = await fetch("/api/upload-resume", {
+                method: "POST",
+                body: formData
+            });
+
+            if (!response.ok) {
+                statusDiv.innerHTML = "Upload failed: " + response.status;
+                return;
+            }
+
+            const data = await response.json();
+
+            resumeArea.value = data.text || "";
+            statusDiv.innerHTML = "✅ Resume uploaded successfully";
+
+        } catch (err) {
+            statusDiv.innerHTML = "Upload error: " + err;
+        }
+    });
+
+    /* =============================
+       ANALYZE
+    =============================*/
+    async function analyze() {
+        const jd = document.getElementById("jd").value;
+        const resume = document.getElementById("resume").value;
+        const resultDiv = document.getElementById("result");
+
+        if (!jd || !resume) {
+            resultDiv.innerHTML = "Please paste Job Description and Resume";
+            return;
+        }
+
+        try {
+            const response = await fetch("/api/analyze", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    jobDescription: jd,
+                    resumeText: resume
+                })
+            });
+
+            if (!response.ok) {
+                resultDiv.innerHTML = "Error: " + response.status;
+                return;
+            }
+
+            const data = await response.json();
+
+// raw score from backend (0–10)
+let rawScore = 0;
+if (typeof data.score === "number") {
+    rawScore = data.score;
+} else if (typeof data.matchScore === "number") {
+    rawScore = data.matchScore;
+}
+
+// convert to percentage (0–100)
+const scorePercent = Math.round(rawScore);
+const matchLevel = data.matchLevel || "";
+
+resultDiv.innerHTML =
+    "Score: " + scorePercent + "% " + (matchLevel ? "(" + matchLevel + ")" : "") + "<br><br>" +
+    "Matched Skills: " + (data.matchedSkills || []).join(", ") + "<br>" +
+    "Missing Skills: " + (data.missingSkills || []).join(", ") + "<br><br>" +
+    "AI Tip: " + data.tip;
+
+
+        } catch (err) {
+            resultDiv.innerHTML = "API error: " + err;
+        }
+    }
+
+
+    /* =============================
+       CHATBOT
+    =============================*/
+    async function askQuestion() {
+        const question = document.getElementById("question").value;
+        const resume = document.getElementById("resume").value;
+        const jd = document.getElementById("jd").value;
+        const answerDiv = document.getElementById("answer");
+
+        if (!question) {
+            answerDiv.innerHTML = "Please type a question";
+            return;
+        }
+
+        try {
+            const response = await fetch("/api/ask", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    question: question,
+                    resumeText: resume,
+                    jobDescription: jd
+                })
+            });
+
+            if (!response.ok) {
+                answerDiv.innerHTML = "Error: " + response.status;
+                return;
+            }
+
+            const data = await response.json();
+            answerDiv.innerHTML = (data.answer || '').replace(/\n/g, '<br>');
+
+        } catch (err) {
+            answerDiv.innerHTML = "API error: " + err;
+        }
+    }
+</script>
+
+</body>
+</html>

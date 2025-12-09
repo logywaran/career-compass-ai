@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Career Compass – Career Match Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --primary-dark: #4338ca;
+            --primary-glow: rgba(99, 102, 241, 0.12);
+
+            --surface: #ffffff;
+            --surface-secondary: #f8fafc;
+            --surface-tertiary: #f1f5f9;
+
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
+
+            --success: #22c55e;
+            --success-bg: #ecfdf5;
+            --success-text: #047857;
+
+            --warning: #eab308;
+            --warning-bg: #fefce8;
+            --warning-text: #a16207;
+
+            --error: #dc2626;
+            --error-bg: #fef2f2;
+            --error-text: #b91c1c;
+
+            --radius: 12px;
+            --radius-lg: 16px;
+            --radius-sm: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: var(--surface-secondary);
+            color: var(--text-primary);
+        }
+
+        /* HEADER */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .logo-sub {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .top-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            padding: 7px 12px;
+            border-radius: 999px;
+            transition: all 0.15s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: var(--primary-glow);
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* MAIN LAYOUT */
+        main {
+            padding: 28px 20px 40px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            margin-bottom: 20px;
+        }
+
+        .page-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 0 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .page-title i {
+            color: var(--primary);
+        }
+
+        .page-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 18px;
+        }
+
+        @media (max-width: 900px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: 20px 22px 22px;
+            animation: fadeInUp 0.4s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 0 0 3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* SCORE DISPLAY */
+        .score-display {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .score-ring {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            flex-shrink: 0;
+        }
+
+        .score-ring svg {
+            width: 80px;
+            height: 80px;
+            transform: rotate(-90deg);
+        }
+
+        .score-ring-bg {
+            fill: none;
+            stroke: var(--border);
+            stroke-width: 6;
+        }
+
+        .score-ring-progress {
+            fill: none;
+            stroke: var(--success);
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-dasharray: 226;
+            stroke-dashoffset: 226;
+            transition: stroke-dashoffset 1.2s ease-out, stroke 0.3s ease;
+        }
+
+        .score-ring-progress.medium {
+            stroke: var(--warning);
+        }
+
+        .score-ring-progress.weak {
+            stroke: var(--error);
+        }
+
+        .score-ring-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .score-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .score-badge.strong {
+            background: var(--success-bg);
+            color: var(--success-text);
+        }
+
+        .score-badge.medium {
+            background: var(--warning-bg);
+            color: var(--warning-text);
+        }
+
+        .score-badge.weak {
+            background: var(--error-bg);
+            color: var(--error-text);
+        }
+
+        .score-meta {
+            margin-top: 4px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .summary-text {
+            margin-top: 14px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            padding: 12px 14px;
+            background: var(--surface-tertiary);
+            border-radius: var(--radius-sm);
+            border-left: 3px solid var(--primary);
+        }
+
+        /* SECTIONS */
+        .section {
+            margin-top: 18px;
+        }
+
+        .section-title {
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .section-title i {
+            font-size: 0.9rem;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag {
+            padding: 5px 11px;
+            border-radius: 999px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            border: 1px solid var(--border);
+            background: var(--surface-tertiary);
+            color: var(--text-secondary);
+            transition: all 0.15s ease;
+        }
+
+        .tag:hover {
+            border-color: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .tag-matched {
+            border-color: #bbf7d0;
+            background: #f0fdf4;
+            color: #15803d;
+        }
+
+        .tag-missing {
+            border-color: #fecaca;
+            background: #fef2f2;
+            color: #b91c1c;
+        }
+
+        .bullet-list {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        .bullet-list li {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            line-height: 1.5;
+        }
+
+        .tip-box {
+            margin-top: 16px;
+            padding: 14px 16px;
+            border-radius: var(--radius);
+            background: linear-gradient(135deg, #fefce8, #fef9c3);
+            border: 1px solid #fde047;
+            font-size: 0.88rem;
+            color: var(--warning-text);
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+        }
+
+        .tip-icon {
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .tip-text {
+            flex: 1;
+            line-height: 1.55;
+        }
+
+        /* ACTIONS */
+        .actions {
+            margin-top: 18px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .btn {
+            border-radius: 999px;
+            padding: 9px 16px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.15s ease;
+            text-decoration: none;
+            color: var(--text-secondary);
+        }
+
+        .btn:hover {
+            border-color: var(--primary-light);
+            color: var(--primary);
+            background: var(--surface-tertiary);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+            color: white;
+        }
+
+        .session-info {
+            margin-top: 16px;
+            padding: 12px 14px;
+            background: var(--surface-tertiary);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border: 1px solid var(--border-light);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <a class="logo" href="home.html">
+            <div class="logo-icon">
+                <i class="bi bi-compass"></i>
+            </div>
+            <div>
+                <div class="logo-text">Career Compass</div>
+                <div class="logo-sub">AI-Powered Career Matching</div>
+            </div>
+        </a>
+
+        <nav class="top-nav">
+            <a href="home.html" class="nav-link">Home</a>
+            <a href="resume.html" class="nav-link">Resume</a>
+            <a href="job.html" class="nav-link">Job</a>
+            <a href="results.html" class="nav-link active">Results</a>
+            <a href="chatbot.html" class="nav-link">AI Assistant</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">
+                <i class="bi bi-clipboard-data"></i>
+                Career Match Report
+            </h1>
+            <p class="page-subtitle">
+                See how well your resume fits this role and what to improve next.
+            </p>
+        </div>
+
+        <div class="layout">
+
+            <!-- LEFT: Job Match & Fit -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">Overall Job Fit</h2>
+                        <p class="card-subtitle">Match score, strengths, and skill gaps</p>
+                    </div>
+                </div>
+
+                <div class="score-display">
+                    <div class="score-ring">
+                        <svg viewBox="0 0 80 80">
+                            <circle class="score-ring-bg" cx="40" cy="40" r="36" />
+                            <circle id="scoreRingProgress" class="score-ring-progress" cx="40" cy="40" r="36" />
+                        </svg>
+                        <div class="score-ring-value" id="scoreNumber">–</div>
+                    </div>
+                    <div>
+                        <div id="scoreBadge" class="score-badge strong">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span id="scoreLabel">Match</span>
+                        </div>
+                        <div class="score-meta">Based on skills and experience alignment</div>
+                    </div>
+                </div>
+
+                <div id="summaryText" class="summary-text">
+                    Run an analysis from the Job page to see your detailed match report here.
+                </div>
+
+                <div class="section">
+                    <div class="section-title">
+                        <i class="bi bi-check-circle text-success"></i>
+                        Your Strengths
+                    </div>
+                    <ul id="strengthsList" class="bullet-list">
+                        <!-- strengths injected -->
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">
+                        <i class="bi bi-patch-check"></i>
+                        Matched Skills
+                    </div>
+                    <div id="matchedTags" class="tag-list">
+                        <!-- matched skill tags -->
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">
+                        <i class="bi bi-exclamation-triangle"></i>
+                        Skill Gaps
+                    </div>
+                    <div id="missingTags" class="tag-list">
+                        <!-- missing skill tags -->
+                    </div>
+                </div>
+
+                <div class="tip-box" id="tipBox">
+                    <div class="tip-icon">💡</div>
+                    <div class="tip-text" id="tipText">
+                        <!-- AI tip -->
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button type="button" class="btn" id="tryDifferentJobBtn">
+                        <i class="bi bi-arrow-repeat"></i>
+                        Analyze Different Job
+                    </button>
+
+                    <a class="btn btn-primary" href="chatbot.html">
+                        <i class="bi bi-chat-dots"></i>
+                        Get AI Guidance
+                    </a>
+                </div>
+            </div>
+
+            <!-- RIGHT: Resume Improvements -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2 class="card-title">How to Improve</h2>
+                        <p class="card-subtitle">Actionable steps to boost your fit</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">
+                        <i class="bi bi-arrow-up-circle"></i>
+                        Areas to Develop
+                    </div>
+                    <ul id="areasList" class="bullet-list">
+                        <!-- areas injected -->
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">
+                        <i class="bi bi-list-check"></i>
+                        Recommended Next Steps
+                    </div>
+                    <ul id="recoList" class="bullet-list">
+                        <!-- recommendations injected -->
+                    </ul>
+                </div>
+
+                <div class="session-info" id="sessionInfo">
+                    This report uses the resume and job description from your current session.
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<script>
+    function parseJsonList(value) {
+        if (!value) return [];
+        try {
+            const arr = JSON.parse(value);
+            return Array.isArray(arr) ? arr : [];
+        } catch {
+            return [];
+        }
+    }
+
+    function animateScore(targetScore) {
+        const scoreNumberEl = document.getElementById("scoreNumber");
+        const scoreRingProgress = document.getElementById("scoreRingProgress");
+
+        if (!targetScore || isNaN(targetScore)) {
+            scoreNumberEl.textContent = "–";
+            return;
+        }
+
+        const target = parseInt(targetScore, 10);
+        const circumference = 2 * Math.PI * 36; // r=36
+        const offset = circumference - (target / 100) * circumference;
+
+        // Animate the ring
+        setTimeout(() => {
+            scoreRingProgress.style.strokeDashoffset = offset;
+        }, 100);
+
+        // Animate the number count-up
+        let current = 0;
+        const duration = 1200;
+        const stepTime = 20;
+        const steps = duration / stepTime;
+        const increment = target / steps;
+
+        const counter = setInterval(() => {
+            current += increment;
+            if (current >= target) {
+                current = target;
+                clearInterval(counter);
+            }
+            scoreNumberEl.textContent = Math.round(current) + "%";
+        }, stepTime);
+    }
+
+    function renderResults() {
+        const score = sessionStorage.getItem("analysisScore") || "";
+        const matchLevel = sessionStorage.getItem("analysisMatchLevel") || "";
+        const tip = sessionStorage.getItem("analysisTip") || "";
+        const summary = sessionStorage.getItem("analysisSummary") || "";
+
+        const strengths = parseJsonList(sessionStorage.getItem("analysisStrengths"));
+        const areas = parseJsonList(sessionStorage.getItem("analysisAreasForImprovement"));
+        const recos = parseJsonList(sessionStorage.getItem("analysisRecommendations"));
+
+        const matchedSkills = parseJsonList(sessionStorage.getItem("analysisMatchedSkills"));
+        const missingSkills = parseJsonList(sessionStorage.getItem("analysisMissingSkills"));
+
+        const jobDescription = (sessionStorage.getItem("jobDescription") || "").trim();
+        const resumeText = (sessionStorage.getItem("resumeText") || "").trim();
+
+        // Score animation
+        animateScore(score);
+
+        // Score badge styling
+        const scoreBadge = document.getElementById("scoreBadge");
+        const scoreLabel = document.getElementById("scoreLabel");
+        const scoreRingProgress = document.getElementById("scoreRingProgress");
+
+        scoreLabel.textContent = matchLevel || "Match";
+
+        scoreBadge.classList.remove("strong", "medium", "weak");
+        scoreRingProgress.classList.remove("medium", "weak");
+
+        if (matchLevel === "Strong Match") {
+            scoreBadge.classList.add("strong");
+        } else if (matchLevel === "Medium Match") {
+            scoreBadge.classList.add("medium");
+            scoreRingProgress.classList.add("medium");
+        } else if (matchLevel === "Weak Match") {
+            scoreBadge.classList.add("weak");
+            scoreRingProgress.classList.add("weak");
+        } else {
+            scoreBadge.classList.add("strong");
+        }
+
+        // Summary
+        const summaryEl = document.getElementById("summaryText");
+        if (summary) {
+            summaryEl.textContent = summary;
+        } else if (matchLevel || score) {
+            summaryEl.textContent =
+                "Your score, strengths, and recommendations below are based on your resume and this job description.";
+        } else {
+            summaryEl.textContent =
+                "Run an analysis from the Job page to see a detailed match report here.";
+        }
+
+        // Strengths
+        const strengthsList = document.getElementById("strengthsList");
+        strengthsList.innerHTML = "";
+        let strengthsToRender = strengths.slice();
+        if (strengthsToRender.length === 0 && matchedSkills.length > 0) {
+            strengthsToRender.push(
+                "Your resume already demonstrates several key skills required for this role."
+            );
+        }
+        if (strengthsToRender.length === 0) {
+            const li = document.createElement("li");
+            li.textContent = "Complete an analysis to see your strengths.";
+            li.style.color = "var(--text-muted)";
+            strengthsList.appendChild(li);
+        } else {
+            strengthsToRender.forEach(s => {
+                const li = document.createElement("li");
+                li.textContent = s;
+                strengthsList.appendChild(li);
+            });
+        }
+
+        // Matched skills
+        const matchedTags = document.getElementById("matchedTags");
+        matchedTags.innerHTML = "";
+        if (matchedSkills.length === 0) {
+            matchedTags.innerHTML = '<span class="tag">No matched skills yet</span>';
+        } else {
+            matchedSkills.forEach(skill => {
+                const span = document.createElement("span");
+                span.className = "tag tag-matched";
+                span.textContent = skill;
+                matchedTags.appendChild(span);
+            });
+        }
+
+        // Missing skills
+        const missingTags = document.getElementById("missingTags");
+        missingTags.innerHTML = "";
+        if (missingSkills.length === 0) {
+            missingTags.innerHTML = '<span class="tag">No gaps identified</span>';
+        } else {
+            missingSkills.forEach(skill => {
+                const span = document.createElement("span");
+                span.className = "tag tag-missing";
+                span.textContent = skill;
+                missingTags.appendChild(span);
+            });
+        }
+
+        // Tip
+        const tipText = document.getElementById("tipText");
+        tipText.textContent = tip || "Complete an analysis to receive personalized tips.";
+
+        // Areas for improvement
+        const areasList = document.getElementById("areasList");
+        areasList.innerHTML = "";
+        if (areas.length === 0) {
+            const li = document.createElement("li");
+            li.textContent = "Refine your resume based on the skill gaps shown on the left.";
+            li.style.color = "var(--text-muted)";
+            areasList.appendChild(li);
+        } else {
+            areas.forEach(a => {
+                const li = document.createElement("li");
+                li.textContent = a;
+                areasList.appendChild(li);
+            });
+        }
+
+        // Recommendations
+        const recoList = document.getElementById("recoList");
+        recoList.innerHTML = "";
+        if (recos.length === 0) {
+            const li = document.createElement("li");
+            li.textContent = "Use the AI Assistant to get a personalized learning roadmap for this role.";
+            li.style.color = "var(--text-muted)";
+            recoList.appendChild(li);
+        } else {
+            recos.forEach(r => {
+                const li = document.createElement("li");
+                li.textContent = r;
+                recoList.appendChild(li);
+            });
+        }
+
+        // Session info
+        const sessionInfo = document.getElementById("sessionInfo");
+        if (jobDescription && resumeText) {
+            sessionInfo.textContent =
+                "This report is based on the job description and resume you provided in this session.";
+        } else if (jobDescription && !resumeText) {
+            sessionInfo.textContent =
+                "Only a job description was found. Upload your resume for a more accurate match.";
+        } else if (!jobDescription && resumeText) {
+            sessionInfo.textContent =
+                "Only a resume was found. Add a job description to see role-specific insights.";
+        } else {
+            sessionInfo.textContent =
+                "No resume or job description found. Start from the Resume page to generate a report.";
+        }
+    }
+
+ document.addEventListener("DOMContentLoaded", () => {
+        // Render everything when Results loads
+        renderResults();
+
+        // Wire up the "Analyze Different Job" button
+        const tryDifferentJobBtn = document.getElementById("tryDifferentJobBtn");
+        if (tryDifferentJobBtn) {
+            tryDifferentJobBtn.addEventListener("click", () => {
+                // Clear JD + analysis only when user explicitly wants a new job
+                sessionStorage.removeItem("jobDescription");
+
+                sessionStorage.removeItem("analysisScore");
+                sessionStorage.removeItem("analysisMatchLevel");
+                sessionStorage.removeItem("analysisTip");
+                sessionStorage.removeItem("analysisJdSkills");
+                sessionStorage.removeItem("analysisResumeSkills");
+                sessionStorage.removeItem("analysisMatchedSkills");
+                sessionStorage.removeItem("analysisMissingSkills");
+                sessionStorage.removeItem("analysisSummary");
+                sessionStorage.removeItem("analysisStrengths");
+                sessionStorage.removeItem("analysisAreasForImprovement");
+                sessionStorage.removeItem("analysisRecommendations");
+
+                window.location.href = "job.html";
+            });
+        }
+    });
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Career Compass – Upload Resume</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-light: #6366f1;
+            --primary-dark: #4338ca;
+            --primary-glow: rgba(99, 102, 241, 0.12);
+
+            --surface: #ffffff;
+            --surface-secondary: #f8fafc;
+            --surface-tertiary: #f1f5f9;
+
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+
+            --border: #e2e8f0;
+            --border-light: #f1f5f9;
+
+            --success: #047857;
+            --success-bg: #ecfdf5;
+            --error: #b91c1c;
+            --error-bg: #fef2f2;
+
+            --radius: 12px;
+            --radius-sm: 8px;
+            --radius-lg: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Inter", system-ui, -apple-system, sans-serif;
+            background: var(--surface-secondary);
+            color: var(--text-primary);
+        }
+
+        /* HEADER */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+        }
+
+        .logo-text {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .logo-sub {
+            font-size: 0.72rem;
+            color: var(--text-muted);
+        }
+
+        .top-nav {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 7px 12px;
+            border-radius: 999px;
+            transition: all 0.15s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: var(--primary-glow);
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* MAIN CONTENT */
+        main {
+            padding: 40px 20px 60px;
+        }
+
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            padding: 28px;
+        }
+
+        .step-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: var(--primary-glow);
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 16px;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0 0 6px;
+            color: var(--text-primary);
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin: 0 0 24px;
+            line-height: 1.5;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 160px;
+            padding: 14px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius);
+            font-family: inherit;
+            font-size: 0.9rem;
+            resize: vertical;
+            transition: border-color 0.15s ease;
+            line-height: 1.6;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            gap: 12px;
+        }
+
+        .divider-line {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        .divider-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .upload-area {
+            background: var(--surface-tertiary);
+            border: 2px dashed var(--border);
+            border-radius: var(--radius);
+            padding: 28px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .upload-area:hover {
+            border-color: var(--primary-light);
+            background: var(--primary-glow);
+        }
+
+        .upload-area.dragover {
+            border-color: var(--primary);
+            background: var(--primary-glow);
+        }
+
+        .upload-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            font-size: 1.3rem;
+            color: var(--primary);
+            border: 1px solid var(--border);
+        }
+
+        .upload-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 4px;
+        }
+
+        .upload-hint {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .status-message {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-message.success {
+            display: flex;
+            background: var(--success-bg);
+            color: var(--success);
+            border: 1px solid #bbf7d0;
+        }
+
+        .status-message.error {
+            display: flex;
+            background: var(--error-bg);
+            color: var(--error);
+            border: 1px solid #fecaca;
+        }
+
+        .status-message.loading {
+            display: flex;
+            background: var(--surface-tertiary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .tips-box {
+            margin-top: 20px;
+            background: var(--surface-tertiary);
+            padding: 16px 18px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-light);
+        }
+
+        .tips-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tips-list {
+            margin: 0;
+            padding-left: 20px;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-top: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.15s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-inner">
+        <a class="logo" href="home.html">
+            <div class="logo-icon">
+                <i class="bi bi-compass"></i>
+            </div>
+            <div>
+                <div class="logo-text">Career Compass</div>
+                <div class="logo-sub">AI-Powered Career Matching</div>
+            </div>
+        </a>
+
+        <nav class="top-nav">
+            <a href="home.html" class="nav-link">Home</a>
+            <a href="resume.html" class="nav-link active">Resume</a>
+            <a href="job.html" class="nav-link">Job</a>
+            <a href="results.html" class="nav-link">Results</a>
+            <a href="chatbot.html" class="nav-link">AI Assistant</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <div class="card">
+
+            <div class="step-indicator">
+                <i class="bi bi-1-circle-fill"></i>
+                Step 1 of 2
+            </div>
+
+            <h1 class="title">Add Your Resume</h1>
+            <p class="subtitle">
+                Paste your resume text or upload a PDF. We'll extract your skills and experience to match against job descriptions.
+            </p>
+
+            <label class="form-label">Resume Text</label>
+            <textarea id="resume" placeholder="Paste your resume content here..."></textarea>
+
+            <div class="divider">
+                <div class="divider-line"></div>
+                <span class="divider-text">or upload a file</span>
+                <div class="divider-line"></div>
+            </div>
+
+            <div class="upload-area" id="uploadArea">
+                <input id="resumePdfInput" type="file" accept=".pdf" style="display:none">
+                <div class="upload-icon">
+                    <i class="bi bi-file-earmark-arrow-up"></i>
+                </div>
+                <div class="upload-title">Upload Resume PDF</div>
+                <div class="upload-hint">Click to browse or drag & drop (max 4MB)</div>
+            </div>
+
+            <div class="status-message" id="statusMessage">
+                <i class="bi bi-check-circle-fill"></i>
+                <span id="statusText"></span>
+            </div>
+
+            <div class="tips-box">
+                <div class="tips-title">
+                    <i class="bi bi-lightbulb"></i>
+                    Tips for best results
+                </div>
+                <ul class="tips-list">
+                    <li>Use a well-formatted resume (PDF works best)</li>
+                    <li>Include all relevant work experience and skills</li>
+                    <li>Make sure the text is clear and readable</li>
+                    <li>Keep file size under 4MB</li>
+                </ul>
+            </div>
+
+            <button class="btn-primary" onclick="goToJobPage()">
+                Continue to Job Description
+                <i class="bi bi-arrow-right"></i>
+            </button>
+
+        </div>
+    </div>
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const resumeArea = document.getElementById("resume");
+        const uploadArea = document.getElementById("uploadArea");
+        const fileInput = document.getElementById("resumePdfInput");
+        const statusMessage = document.getElementById("statusMessage");
+        const statusText = document.getElementById("statusText");
+
+        // Load stored resume
+        resumeArea.value = sessionStorage.getItem("resumeText") || "";
+
+        // Save while typing
+        resumeArea.addEventListener("input", () => {
+            sessionStorage.setItem("resumeText", resumeArea.value);
+        });
+
+        uploadArea.onclick = () => fileInput.click();
+
+        fileInput.addEventListener("change", e => {
+            const file = e.target.files[0];
+            if (file) uploadResume(file);
+        });
+
+        uploadArea.addEventListener("drop", e => {
+            e.preventDefault();
+            uploadArea.classList.remove("dragover");
+            const file = e.dataTransfer.files[0];
+            if (file) uploadResume(file);
+        });
+
+        uploadArea.addEventListener("dragover", e => {
+            e.preventDefault();
+            uploadArea.classList.add("dragover");
+        });
+
+        uploadArea.addEventListener("dragleave", e => {
+            e.preventDefault();
+            uploadArea.classList.remove("dragover");
+        });
+
+        function setStatus(message, type) {
+            statusMessage.className = "status-message " + type;
+            statusText.textContent = message;
+
+            const icon = statusMessage.querySelector("i");
+            if (type === "success") {
+                icon.className = "bi bi-check-circle-fill";
+            } else if (type === "error") {
+                icon.className = "bi bi-exclamation-circle-fill";
+            } else {
+                icon.className = "bi bi-hourglass-split";
+            }
+        }
+
+        async function uploadResume(file) {
+            if (file.type !== "application/pdf") {
+                setStatus("Please upload a PDF file.", "error");
+                return;
+            }
+
+            if (file.size > 4 * 1024 * 1024) {
+                setStatus("File too large. Maximum size is 4MB.", "error");
+                return;
+            }
+
+            setStatus("Extracting resume content...", "loading");
+
+            try {
+                const formData = new FormData();
+                formData.append("file", file);
+
+                const res = await fetch("/api/upload-resume", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!res.ok) throw new Error("Upload failed");
+
+                const data = await res.json();
+                resumeArea.value = data.text || "";
+                localStorage.setItem("resumeText", resumeArea.value);
+                sessionStorage.setItem("resumeText", resumeArea.value);
+
+                setStatus("Resume extracted successfully!", "success");
+            } catch (e) {
+                setStatus("Failed to extract resume. Please try again.", "error");
+            }
+        }
+    });
+
+    function goToJobPage() {
+        sessionStorage.setItem("resumeText",
+            document.getElementById("resume").value || ""
+        );
+        window.location.href = "job.html";
+    }
+</script>
+
+</body>
+</html>
