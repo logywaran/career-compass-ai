@@ -22,7 +22,7 @@ public class MatchService {
     private static final List<String> SKILLS = Arrays.asList(
             // programming languages
             "java", "python", "javascript", "typescript",
-            "c", "c++", "c#", "go", "ruby", "kotlin", "swift", "php",
+            "c","c programming", "c++", "c#", "go", "ruby", "kotlin", "swift", "php",
 
             // backend frameworks / tech
             "spring", "spring boot", "django", "flask", "node.js", "node js",
