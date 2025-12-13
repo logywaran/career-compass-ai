@@ -757,7 +757,254 @@ public class CareerKnowledgeBase {
                                 Push yourself to build something slightly beyond your comfort zone so that you encounter and solve real problems.
                                 Review and adjust your roadmap every few weeks based on what is working instead of feeling guilty about not following a rigid plan.
                                 """
+                ),
+
+
+                new KnowledgeSnippet(
+                        "backend-hiring-2024",
+                        "Backend developer hiring expectations (2024+)",
+                        "industry-update",
+                        List.of("backend", "spring boot", "java", "docker"),
+                        """
+                        From 2024 onwards, many backend roles expect candidates to show basic deployment
+                        and environment awareness, not just API development.
+                        Even for freshers, recruiters value seeing one backend project run using Docker
+                        or deployed to a cloud platform.
+                        This shows understanding of how backend code behaves outside local machines.
+                        """
+                ),
+
+                new KnowledgeSnippet(
+                        "docker-baseline-2024",
+                        "Docker as a baseline backend skill",
+                        "industry-update",
+                        List.of("docker", "backend", "deployment"),
+                        """
+                        Docker is increasingly treated as a baseline skill rather than an advanced DevOps tool.
+                        Recruiters often expect candidates to at least containerize one project and explain
+                        how Dockerfiles and images work at a high level.
+                        Full Kubernetes expertise is not expected at entry level.
+                        """
+                ),
+
+                new KnowledgeSnippet(
+                        "cloud-exposure-vs-theory",
+                        "Cloud exposure matters more than theory",
+                        "industry-update",
+                        List.of("aws", "cloud", "deployment"),
+                        """
+                        In recent hiring trends, hands-on cloud exposure matters more than theoretical knowledge.
+                        Deploying one small project using services like EC2 or managed databases
+                        is often valued more than listing multiple cloud services without experience.
+                        """
+                ),
+
+                new KnowledgeSnippet(
+                        "deployment-over-certificates",
+                        "Deployment experience over certificates",
+                        "industry-update",
+                        List.of("fresher", "certification", "deployment"),
+                        """
+                        Many recruiters now prioritize real deployment experience over online certificates.
+                        A single deployed project with clear documentation often carries more weight
+                        than multiple course completion certificates.
+                        """
+                ),
+
+                new KnowledgeSnippet(
+                        "github-readme-2024",
+                        "GitHub README importance for recruiters",
+                        "industry-update",
+                        List.of("github", "readme", "portfolio"),
+                        """
+                        Recruiters increasingly rely on GitHub READMEs to quickly assess a candidate’s project.
+                        Clear setup steps, screenshots, and a short explanation of design decisions
+                        significantly improve first impressions.
+                        """
+                ),
+
+                new KnowledgeSnippet(
+                        "resume-project-explain-2024",
+                        "Explaining projects clearly on resumes",
+                        "industry-update",
+                        List.of("resume", "projects", "backend"),
+                        """
+                        Modern resumes are expected to briefly explain what problem a project solves,
+                        not just list technologies.
+                        Recruiters prefer 2–3 strong projects with clear explanations
+                        over many shallow project listings.
+                        """
+                ),
+
+                new KnowledgeSnippet(
+                        "ats-keywords-2024",
+                        "ATS keyword behavior updates",
+                        "industry-update",
+                        List.of("ats", "resume", "keywords"),
+                        """
+                        ATS systems increasingly combine keyword matching with contextual scoring.
+                        This means keyword stuffing is less effective than placing skills naturally
+                        within experience and project descriptions.
+                        """
+                ),
+
+                new KnowledgeSnippet(
+                        "ai-tools-awareness",
+                        "AI tool awareness in tech hiring",
+                        "industry-update",
+                        List.of("ai", "chatgpt", "developer tools"),
+                        """
+                        Many teams now expect developers to be aware of AI tools like code assistants
+                        without expecting deep AI expertise.
+                        Knowing how to use AI responsibly for productivity is seen as a plus.
+                        """
+                ),
+
+                new KnowledgeSnippet(
+                        "system-design-fresher-2024",
+                        "System design expectations for freshers",
+                        "industry-update",
+                        List.of("system design", "backend", "fresher"),
+                        """
+                        Freshers are not expected to design large systems,
+                        but they are expected to explain basic flows such as request handling,
+                        database interactions, and error scenarios.
+                        """
+                ),
+
+                new KnowledgeSnippet(
+                        "internship-weight-2024",
+                        "Internship experience weight increase",
+                        "industry-update",
+                        List.of("internship", "experience", "fresher"),
+                        """
+                        Internships and real-world exposure have gained more importance in shortlisting.
+                        Even short internships help recruiters assess workplace readiness better
+                        than academic projects alone.
+                        """
+                ),
+
+                new KnowledgeSnippet(
+                        "documentation-skill-2024",
+                        "Documentation as a core engineering skill",
+                        "industry-update",
+                        List.of("documentation", "backend", "engineering"),
+                        """
+                        Clear documentation is increasingly treated as a core engineering skill.
+                        Recruiters value candidates who can explain APIs, setup steps,
+                        and assumptions clearly in writing.
+                        """
+                ),
+
+                new KnowledgeSnippet(
+                        "sql-still-mandatory",
+                        "SQL remains mandatory for backend roles",
+                        "industry-update",
+                        List.of("sql", "database", "backend"),
+                        """
+                        Despite new tools and frameworks, SQL remains a mandatory skill
+                        for most backend roles.
+                        Interviewers still test joins, indexes, and query reasoning.
+                        """
+                ),
+
+                new KnowledgeSnippet(
+                        "overengineering-penalty",
+                        "Overengineering hurts junior candidates",
+                        "industry-update",
+                        List.of("overengineering", "backend", "architecture"),
+                        """
+                        Overengineering small projects is often viewed negatively for junior candidates.
+                        Simple, well-explained solutions are preferred over complex architectures
+                        that the candidate cannot clearly justify.
+                        """
+                ),
+
+                new KnowledgeSnippet(
+                        "testing-awareness-2024",
+                        "Testing awareness expectations",
+                        "industry-update",
+                        List.of("testing", "unit tests", "backend"),
+                        """
+                        While deep testing expertise is not expected from freshers,
+                        awareness of unit tests and basic testing principles
+                        is increasingly expected in interviews.
+                        """
+                ),
+
+                new KnowledgeSnippet(
+                        "communication-over-buzzwords",
+                        "Communication valued over buzzwords",
+                        "industry-update",
+                        List.of("communication", "interview", "resume"),
+                        """
+                        Clear communication and honest explanations are valued more
+                        than resumes filled with buzzwords.
+                        Interviewers prefer candidates who explain clearly
+                        what they know and what they are still learning.
+                        """
+                ),
+
+                new KnowledgeSnippet(
+                        "portfolio-over-marks",
+                        "Portfolio valued over academic marks",
+                        "industry-update",
+                        List.of("portfolio", "projects", "fresher"),
+                        """
+                        Academic marks alone are no longer strong differentiators.
+                        A solid project portfolio with clear explanations
+                        often has more impact during shortlisting.
+                        """
+                ),
+
+                new KnowledgeSnippet(
+                        "api-security-basics",
+                        "Basic API security expectations",
+                        "industry-update",
+                        List.of("api security", "backend", "authentication"),
+                        """
+                        Basic understanding of API security concepts like authentication,
+                        authorization, and input validation is increasingly expected.
+                        Advanced security expertise is not required at entry level.
+                        """
+                ),
+
+                new KnowledgeSnippet(
+                        "learning-speed-2024",
+                        "Learning speed matters in hiring",
+                        "industry-update",
+                        List.of("learning", "adaptability", "career"),
+                        """
+                        Hiring teams increasingly value learning speed and adaptability.
+                        Showing how you learned a new tool or concept quickly
+                        can be more impactful than claiming mastery.
+                        """
+                ),
+
+                new KnowledgeSnippet(
+                        "devops-lite",
+                        "DevOps-lite expectations for developers",
+                        "industry-update",
+                        List.of("devops", "docker", "ci cd"),
+                        """
+                        Developers are now expected to have DevOps-lite awareness.
+                        This includes understanding pipelines, environments,
+                        and deployment flow without deep infrastructure expertise.
+                        """
+                ),
+
+                new KnowledgeSnippet(
+                        "career-clarity-2024",
+                        "Career clarity helps shortlisting",
+                        "industry-update",
+                        List.of("career clarity", "resume", "job search"),
+                        """
+                        Candidates with a clear target role and consistent profile
+                        are easier to shortlist than those applying everywhere.
+                        Clear career direction reduces recruiter uncertainty.
+                        """
                 )
+
         );
     }
 
