@@ -31,3 +31,21 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Environment Variables (IMPORTANT: Contains secrets!) ###
+.env
+.env.local
+.env.*.local
+
+### OS Files ###
+.DS_Store
+Thumbs.db
+
+### Logs ###
+*.log
+logs/
+
+### Test Coverage ###
+coverage/
+*.exec
+

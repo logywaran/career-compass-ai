@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  career-compass:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: career-compass-app
+    ports:
+      - "8080:8080"
+    environment:
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - SPRING_PROFILES_ACTIVE=prod
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/health" ]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 40s
+
+# Usage:
+# 1. Set GROQ_API_KEY in your .env file
+# 2. Run: docker-compose up -d
+# 3. Access: http://localhost:8080
+# 4. Stop: docker-compose down
