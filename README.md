@@ -20,7 +20,15 @@ This architecture ensures every result is:
 
 ---
 
-## 🎯 Problem Statement
+## � Live Demo
+
+**🚀 Try it now:** [https://career-compass-ai-itmy.onrender.com](https://career-compass-ai-itmy.onrender.com)
+
+> **Note:** The app may take 30 seconds to wake up on first visit (free tier spins down after inactivity).
+
+---
+
+## �🎯 Problem Statement
 
 Most students apply blindly to jobs without clear insight into:
 
