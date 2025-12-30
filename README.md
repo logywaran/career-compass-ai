@@ -2,7 +2,7 @@
 
 [![Java](https://img.shields.io/badge/Java-17-orange.svg)](https://www.oracle.com/java/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.12-brightgreen.svg)](https://spring.io/projects/spring-boot)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 
 Career Compass is a hybrid **AI-assisted + deterministic rule-engine** web application that helps students and early professionals evaluate how well their resume matches a job description and understand what to improve to become job-ready.
 
@@ -857,11 +857,6 @@ Contributions are welcome! Please follow these steps:
 
 ---
 
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
----
 
 ## 👨‍💻 Author
 
