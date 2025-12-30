@@ -290,7 +290,7 @@ You should see your API key (not empty).
 
 ```bash
 git clone https://github.com/logywaran/career-compass-ai.git
-cd career-compass-ai
+cd career-compass
 ```
 
 #### Step 2: Create .env File
@@ -861,8 +861,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 Final-Year Engineering Student | Java Backend Developer
 
 - GitHub: [@logywaran](https://github.com/logywaran)
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
+- LinkedIn: [Logeshwaran J](https://www.linkedin.com/in/logeshwaran-j-165a52258/)
 - Email: logeshwaran.jagadesh@gmail.com
+- 🎥 **Demo Video:** [Watch on Google Drive](https://drive.google.com/file/d/15WXa36cllPDpQEc4FypKCROChdk2UOV1/view?usp=drive_link)
 
 ---
 
